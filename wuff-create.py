@@ -27,7 +27,7 @@ def getRandomDogPic(random_dog_name, random_dog_birth, picDir):
     url = json_data["url"]
     response = requests.get(url, stream=True, timeout=60)
     extension = str(json_data["url"]).rsplit('.', 1)[1]
-    picture_name = picDir + '/wuff_' + random_dog_name + "_" + random_dog_birth + extension
+    picture_name = str(picDir) + '/wuff_' + random_dog_name + "_" + random_dog_birth + '.' + extension
     
     with open(str(picture_name), "wb") as f:
         f.write(response.content)
@@ -58,14 +58,16 @@ def checkYear(year):
     return year
 
 def checkDir(givenDir):
-    if Path(givenDir).is_file():
-        sys.exit('Error: Given directory points to an existing file.')
-    try:
+    if givenDir is not None:
+        givenDir = Path(givenDir)
         if givenDir.exists() and givenDir.is_dir():
             return givenDir
-    except:
+        elif givenDir.is_file():
+            sys.exit('Error: Given directory points to an existing file.')
+    else:
         print('The dog picture will be saved in the current directory')
         return os.getcwd()
+
 
 
 @click.option('-y', '--year',  type=int, help='''From those years, a dog will be taken with their birthday for your new one!\n

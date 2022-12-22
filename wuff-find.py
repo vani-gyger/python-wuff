@@ -22,8 +22,8 @@ def find(file, name, year):
     foundOne = False
     for row in file:
         if row["StichtagDatJahr"] == str(year) and row["HundenameText"] == name:
-            birthdate = 'w' if row["SexHundLang"] == 'weiblich' else 'm'
-            print(f'{name} {row["GebDatHundJahr"]}, {birthdate}')
+            sex = 'w' if row["SexHundLang"] == 'weiblich' else 'm'
+            print(f'Name: {name}, with birthday {row["GebDatHundJahr"]} and sex: {sex}')
             foundOne = True
     if not foundOne:
         sys.exit(f'No dog found in the database with the name \'{name}\' and the year \'{year}\'')
@@ -45,7 +45,7 @@ It is optionally and not the birthdate and min year 2015. If it is empty the cur
 @click.command()
 def main(name, year):
     """
-    This tool'll find the dogs with the same Name as you give in a certain year!
+    This tool'll find the dogs with the name you give in a certain year!
 
     \b
     As example: python wuff-find.py Luna -y 2018
